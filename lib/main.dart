@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_to_pdf/pick_image.dart';
-
+import 'package:image_to_pdf/provider/create_pdf.dart';
+import 'package:provider/provider.dart';
+//
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,8 +11,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
-    );
+    return MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => CreatePdfProvider())],
+        child: MaterialApp(
+          home: HomeScreen(),
+        ));
   }
 }
