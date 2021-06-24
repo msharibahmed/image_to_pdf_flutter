@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 //
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_to_pdf/widgets/gridView_image_child.dart';
 import 'package:provider/provider.dart';
 //
 import 'package:image_to_pdf/provider/create_pdf.dart';
-import 'package:image_to_pdf/screens/edit_photo_screen.dart';
 
 import 'widgets/my_drawer.dart';
 
