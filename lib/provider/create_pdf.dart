@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_to_pdf/model/image_model.dart';
 import 'package:image_to_pdf/screens/view_pdf_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -11,6 +12,11 @@ class CreatePdfProvider with ChangeNotifier {
   List<File> _pickedFiles = [];
   List<File> get pickedFiles {
     return [..._pickedFiles];
+  }
+
+  List<ImageModel> _imageModelList = [];
+  List<ImageModel> get imageModelList {
+    return [..._imageModelList];
   }
 
   List<String> _pickedFilesName = [];
@@ -45,6 +51,8 @@ class CreatePdfProvider with ChangeNotifier {
 
   Future<void> loadAssets(BuildContext context) async {
     try {
+      clearedPickedFiles();
+
       FilePickerResult? result = await FilePicker.platform.pickFiles(
           type: FileType.custom,
           allowedExtensions: ['jpg', 'jpeg', 'png'],
@@ -68,8 +76,17 @@ class CreatePdfProvider with ChangeNotifier {
       if (result != null) {
         _pickedFiles = result.paths.map((path) => File(path)).toList();
         _pickedFilesName = result.names;
+
+        _imageModelList = result.files
+            .map((e) => ImageModel(
+                id: 'hello',
+                createdAt: DateTime.now(),
+                name: e.name,
+                path: e.path,
+                size: e.size.toDouble(),
+                imageFile: File(e.path)))
+            .toList();
       } else {
-        clearedPickedFiles();
         // User canceled the picker
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('User canceled the picker'),
@@ -86,6 +103,13 @@ class CreatePdfProvider with ChangeNotifier {
   void clearedPickedFiles() {
     _pickedFiles = [];
     _pickedFilesName = [];
+    _imageModelList = [];
     notifyListeners();
   }
+
+  // void rotateClockwise(){
+
+  //   notifyListeners();
+
+  // }
 }
